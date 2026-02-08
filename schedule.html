@@ -343,6 +343,8 @@
         <div class="nav-links">
             <a href="index.html">📊 Standings</a>
             <a href="schedule.html" class="active">📅 Schedule</a>
+            <a href="results.html">🎯 Live Results</a>
+            <a href="brackets.html">🏆 Brackets</a>
         </div>
 
         <div class="content">
@@ -355,6 +357,28 @@
                 <h3>⚠️ Important Information</h3>
                 <p><strong>Gate Fee:</strong> Site hosts may charge up to $10 for spectators. Free for ages 10 & under, 65 & older, and USAV members with valid membership card.</p>
                 <p><strong>Rosters:</strong> Coaches must print rosters from Sports Engine and present at check-in with picture ID EACH weekend.</p>
+            </div>
+
+            <div class="filter-section" style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; border: 2px solid #e9ecef;">
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <label for="divisionFilter" style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 10px; font-size: 1.1em;">
+                        🔍 Filter Schedule by Division
+                    </label>
+                    <select 
+                        id="divisionFilter" 
+                        style="width: 100%; padding: 12px 20px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1em; transition: all 0.3s ease; background: white;"
+                        onchange="filterSchedule()"
+                    >
+                        <option value="all">All Divisions</option>
+                        <option value="U12" selected>U12 Only</option>
+                        <option value="U13">U13 Only</option>
+                        <option value="U14">U14 Only</option>
+                        <option value="U15">U15 Only</option>
+                        <option value="U16">U16 Only</option>
+                        <option value="U18">U18 Only</option>
+                    </select>
+                    <div id="filterCount" style="margin-top: 10px; color: #6c757d; font-size: 0.9em; text-align: center;"></div>
+                </div>
             </div>
 
             <div class="schedule-section">
@@ -456,6 +480,33 @@
     </div>
 
     <script>
+        // Filter schedule by division
+        function filterSchedule() {
+            const filterValue = document.getElementById('divisionFilter').value;
+            const eventCards = document.querySelectorAll('.event-card');
+            let visibleCount = 0;
+            let totalCount = eventCards.length;
+
+            eventCards.forEach(card => {
+                const eventTitle = card.querySelector('.event-title').textContent;
+                const eventDetails = card.querySelector('.event-details').textContent;
+                
+                if (filterValue === 'all' || eventTitle.includes(filterValue) || eventDetails.includes(filterValue)) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const filterCount = document.getElementById('filterCount');
+            if (filterValue === 'all') {
+                filterCount.textContent = `Showing all ${totalCount} events`;
+            } else {
+                filterCount.textContent = `Showing ${visibleCount} ${filterValue} events`;
+            }
+        }
+
         // Update the current date indicator dynamically
         function updateCurrentDay() {
             const today = new Date();
@@ -472,7 +523,10 @@
             });
         }
 
-        window.addEventListener('DOMContentLoaded', updateCurrentDay);
+        window.addEventListener('DOMContentLoaded', () => {
+            updateCurrentDay();
+            filterSchedule(); // Initialize filter
+        });
     </script>
 </body>
 </html>
