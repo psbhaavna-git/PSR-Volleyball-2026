@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U12 Power League Schedule - PSR Volleyball</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .nav-links {
+            background: #f8f9fa;
+            padding: 15px 30px;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-links a.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .season-info {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #667eea;
+        }
+
+        .season-info h2 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .season-info p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .schedule-section {
+            margin-bottom: 40px;
+        }
+
+        .schedule-section h2 {
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .event-card {
+            background: #fff;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .event-card.past {
+            opacity: 0.7;
+            background: #f8f9fa;
+        }
+
+        .event-card.current {
+            border-color: #28a745;
+            border-width: 3px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #ffffff 100%);
+        }
+
+        .event-card.upcoming {
+            border-color: #667eea;
+        }
+
+        .event-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-past {
+            background: #6c757d;
+            color: white;
+        }
+
+        .status-current {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-upcoming {
+            background: #667eea;
+            color: white;
+        }
+
+        .event-date {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .event-card.past .event-date {
+            color: #6c757d;
+        }
+
+        .event-card.current .event-date {
+            color: #28a745;
+        }
+
+        .event-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .event-details {
+            color: #4a5568;
+            line-height: 1.8;
+        }
+
+        .event-details strong {
+            color: #2d3748;
+        }
+
+        .event-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .event-link:hover {
+            background: #5568d3;
+            transform: translateX(5px);
+        }
+
+        .event-card.past .event-link {
+            background: #6c757d;
+        }
+
+        .important-note {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .important-note h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .important-note p {
+            color: #856404;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #e9ecef;
+        }
+
+        .timeline .event-card {
+            position: relative;
+        }
+
+        .timeline .event-card::before {
+            content: '';
+            position: absolute;
+            left: -41px;
+            top: 25px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #667eea;
+        }
+
+        .timeline .event-card.past::before {
+            background: #6c757d;
+            box-shadow: 0 0 0 3px #6c757d;
+        }
+
+        .timeline .event-card.current::before {
+            background: #28a745;
+            box-shadow: 0 0 0 3px #28a745;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            text-align: center;
+            border-top: 2px solid #e9ecef;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .event-date {
+                font-size: 1.2em;
+            }
+
+            .event-title {
+                font-size: 1.1em;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .timeline {
+                padding-left: 20px;
+            }
+
+            .timeline .event-card::before {
+                left: -31px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏐 U12 Power League Schedule</h1>
+            <p>Puget Sound Region Volleyball - 2026 Season</p>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html">📊 Standings</a>
+            <a href="schedule.html" class="active">📅 Schedule</a>
+        </div>
+
+        <div class="content">
+            <div class="season-info">
+                <h2>2026 Power League - U12 Division</h2>
+                <p>The PSR Power League consists of a seeding day plus 3 Power League play dates. Entry fee is $920 per team. Standings are posted the Tuesday following each play date.</p>
+            </div>
+
+            <div class="important-note">
+                <h3>⚠️ Important Information</h3>
+                <p><strong>Gate Fee:</strong> Site hosts may charge up to $10 for spectators. Free for ages 10 & under, 65 & older, and USAV members with valid membership card.</p>
+                <p><strong>Rosters:</strong> Coaches must print rosters from Sports Engine and present at check-in with picture ID EACH weekend.</p>
+            </div>
+
+            <div class="schedule-section">
+                <h2>U12 Power League Schedule</h2>
+                
+                <div class="timeline">
+                    <div class="event-card past">
+                        <span class="event-status status-past">Completed</span>
+                        <div class="event-date">📅 Friday, January 3, 2026</div>
+                        <div class="event-title">U12 Seeding Day</div>
+                        <div class="event-details">
+                            <strong>Purpose:</strong> Initial team seeding and placement<br>
+                            <strong>Teams:</strong> All registered U12 teams<br>
+                            <strong>Status:</strong> Completed
+                        </div>
+                    </div>
+
+                    <div class="event-card past">
+                        <span class="event-status status-past">Completed</span>
+                        <div class="event-date">📅 Friday, January 24, 2026</div>
+                        <div class="event-title">Power League #1 - U12 & U13</div>
+                        <div class="event-details">
+                            <strong>Division:</strong> U12 and U13<br>
+                            <strong>Status:</strong> Completed<br>
+                            <strong>Standings Posted:</strong> Tuesday, January 26, 2026
+                        </div>
+                        <a href="index.html" class="event-link">View PL#1 Standings →</a>
+                    </div>
+
+                    <div class="event-card current">
+                        <span class="event-status status-current">Today</span>
+                        <div class="event-date">📅 Sunday, February 8, 2026</div>
+                        <div class="event-title">Power League #2 - U12 & U14</div>
+                        <div class="event-details">
+                            <strong>Division:</strong> U12 and U14<br>
+                            <strong>Status:</strong> In Progress / Today<br>
+                            <strong>Standings Expected:</strong> Tuesday, February 10, 2026
+                        </div>
+                        <a href="https://results.advancedeventsystems.com/event/PTAwMDAwNDI4NTU90/court-schedule" target="_blank" class="event-link">View Live Schedule on AES →</a>
+                    </div>
+
+                    <div class="event-card upcoming">
+                        <span class="event-status status-upcoming">Upcoming</span>
+                        <div class="event-date">📅 Sunday, March 1, 2026</div>
+                        <div class="event-title">Power League #3 - U12 & U14</div>
+                        <div class="event-details">
+                            <strong>Division:</strong> U12 and U14<br>
+                            <strong>Status:</strong> Upcoming<br>
+                            <strong>Final Standings Expected:</strong> Tuesday, March 3, 2026
+                        </div>
+                        <a href="https://www.advancedeventsystems.com/events/42855" target="_blank" class="event-link">View on AES →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="schedule-section">
+                <h2>Complete 2026 Power League Calendar</h2>
+                <div class="event-details" style="background: #f8f9fa; padding: 20px; border-radius: 10px; line-height: 2;">
+                    <strong>January 2026</strong><br>
+                    • Jan 3 - U12 Seeding Day ✓<br>
+                    • Jan 4 - U13, U14 Seeding Day<br>
+                    • Jan 10 - U18 Seeding Day<br>
+                    • Jan 11 - U15, U16 Seeding Day<br>
+                    • Jan 24 - PL#1 U12, U13 ✓<br>
+                    • Jan 25 - PL#1 U14<br>
+                    • Jan 31 - PL#1 U15<br>
+                    <br>
+                    <strong>February 2026</strong><br>
+                    • Feb 1 - PL#1 U16<br>
+                    • Feb 7 - PL#1 U18 // PL#2 U13<br>
+                    • Feb 8 - PL#2 U12, U14 ← <strong style="color: #28a745;">TODAY</strong><br>
+                    • Feb 22 - PL#2 U15, U16, U18<br>
+                    • Feb 28 - PL#3 U13<br>
+                    <br>
+                    <strong>March 2026</strong><br>
+                    • Mar 1 - PL#3 U12, U14<br>
+                    • Mar 7 - PL#3 U15<br>
+                    • Mar 8 - PL#3 U16<br>
+                    <br>
+                    <strong>April 2026</strong><br>
+                    • Apr 11 - PL#3 U18
+                </div>
+            </div>
+
+            <div class="season-info" style="margin-top: 30px;">
+                <h2>🔗 External Resources</h2>
+                <p>
+                    <a href="https://www.advancedeventsystems.com/events/42855" target="_blank" style="color: #667eea; font-weight: 600;">View Full Schedule on AES →</a><br>
+                    <a href="https://www.psrvb.org/power-league" target="_blank" style="color: #667eea; font-weight: 600;">PSR Power League Main Page →</a><br>
+                    <a href="index.html" style="color: #667eea; font-weight: 600;">View Current Standings →</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="footer">
+            Data from <a href="https://www.psrvb.org/power-league" target="_blank">PSR Volleyball</a> | 
+            Schedule information updated as of February 8, 2026
+        </div>
+    </div>
+
+    <script>
+        // Update the current date indicator dynamically
+        function updateCurrentDay() {
+            const today = new Date();
+            const eventCards = document.querySelectorAll('.event-card');
+            
+            eventCards.forEach(card => {
+                const dateText = card.querySelector('.event-date').textContent;
+                // Simple date matching - in production, you'd parse dates properly
+                if (dateText.includes('February 8, 2026')) {
+                    card.classList.add('current');
+                    card.querySelector('.event-status').textContent = 'Today';
+                    card.querySelector('.event-status').classList.add('status-current');
+                }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', updateCurrentDay);
+    </script>
+</body>
+</html>
