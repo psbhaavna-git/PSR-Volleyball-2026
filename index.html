@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>U12 Power League Standings - PSR Volleyball</title>
+    <title>Power League Standings - PSR Volleyball</title>
     <style>
         * {
             margin: 0;
@@ -234,8 +233,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏐 U12 Power League Standings</h1>
-            <p>Puget Sound Region Volleyball - 2026 Season</p>
+            <h1>🏐 Power League Standings</h1>
+            <p>Puget Sound Region Volleyball - 2026 Season - All Divisions</p>
         </div>
 
         <div class="nav-links" style="background: #f8f9fa; padding: 15px 30px; border-bottom: 2px solid #e9ecef; display: flex; gap: 20px; flex-wrap: wrap;">
@@ -255,20 +254,44 @@
         </div>
 
         <div class="filter-section" style="background: #f8f9fa; padding: 20px 30px; border-bottom: 2px solid #e9ecef;">
-            <div style="max-width: 600px; margin: 0 auto;">
-                <label for="teamFilter" style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 10px; font-size: 1.1em;">
-                    🔍 Search for a Team
-                </label>
-                <input 
-                    type="text" 
-                    id="teamFilter" 
-                    placeholder="Type team name, club, or code (e.g., PJVBC, Blue Royals, Ignite)..."
-                    style="width: 100%; padding: 12px 20px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1em; transition: all 0.3s ease;"
-                    oninput="filterTeams()"
-                    onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)'"
-                    onblur="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'"
-                >
-                <div id="filterCount" style="margin-top: 10px; color: #6c757d; font-size: 0.9em; text-align: center;"></div>
+            <div style="max-width: 900px; margin: 0 auto;">
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-bottom: 15px;">
+                    <div>
+                        <label for="divisionSelect" style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 10px; font-size: 1.1em;">
+                            🏐 Select Division
+                        </label>
+                        <select 
+                            id="divisionSelect" 
+                            style="width: 100%; padding: 12px 20px; border: 2px solid #667eea; border-radius: 8px; font-size: 1em; background: white; font-weight: 600; color: #667eea;"
+                            onchange="switchDivision()"
+                        >
+                            <option value="U12" selected>U12 Standings</option>
+                            <option value="U13">U13 Standings</option>
+                            <option value="U14">U14 Standings</option>
+                            <option value="U15">U15 Standings</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="teamFilter" style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 10px; font-size: 1.1em;">
+                            🔍 Search for a Team
+                        </label>
+                        <input 
+                            type="text" 
+                            id="teamFilter" 
+                            placeholder="Type team name or club (e.g., PJVBC, Blue Royals, Ignite)..."
+                            style="width: 100%; padding: 12px 20px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1em; transition: all 0.3s ease;"
+                            oninput="filterTeams()"
+                            onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)'"
+                            onblur="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'"
+                        >
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div id="filterCount" style="color: #6c757d; font-size: 0.9em;"></div>
+                    <div style="color: #28a745; font-weight: 600; font-size: 0.9em;">
+                        🔄 Auto-updating every 60 seconds | Last update: <span id="lastStandingsUpdate">Just now</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -278,17 +301,65 @@
                 Loading standings...
             </div>
 
-            <table id="standingsTable" style="display: none;">
-                <thead>
-                    <tr>
-                        <th class="rank">Rank</th>
-                        <th>Team Name</th>
-                        <th class="points">Points</th>
-                    </tr>
-                </thead>
-                <tbody id="standingsBody">
-                </tbody>
-            </table>
+            <!-- U12 Standings -->
+            <div id="standings-U12" class="division-standings">
+                <table id="standingsTable-U12" class="standingsTable" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th class="rank">Rank</th>
+                            <th>Team Name</th>
+                            <th class="points">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody id="standingsBody-U12">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- U13 Standings -->
+            <div id="standings-U13" class="division-standings" style="display: none;">
+                <table id="standingsTable-U13" class="standingsTable" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th class="rank">Rank</th>
+                            <th>Team Name</th>
+                            <th class="points">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody id="standingsBody-U13">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- U14 Standings -->
+            <div id="standings-U14" class="division-standings" style="display: none;">
+                <table id="standingsTable-U14" class="standingsTable" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th class="rank">Rank</th>
+                            <th>Team Name</th>
+                            <th class="points">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody id="standingsBody-U14">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- U15 Standings -->
+            <div id="standings-U15" class="division-standings" style="display: none;">
+                <table id="standingsTable-U15" class="standingsTable" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th class="rank">Rank</th>
+                            <th>Team Name</th>
+                            <th class="points">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody id="standingsBody-U15">
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="footer">
@@ -298,8 +369,217 @@
     </div>
 
     <script>
-        // Initial standings data (from PL#1 as of 1/26/26)
-        const standingsData = [
+        let currentDivision = 'U12';
+        let refreshInterval;
+
+        // Standings data for all divisions  
+        const allStandingsData = {
+            U12: [
+                { rank: 1, team: "PJVBC 12 National", points: 715.00 },
+                { rank: 2, team: "Ignite 12 Red", points: 700.00 },
+                { rank: 3, team: "Blue Royals 12 Jewel", points: 695.00 },
+                { rank: 4, team: "SIVBC 12 Monsoon", points: 690.00 },
+                { rank: 5, team: "Foothills Teal U12", points: 685.00 },
+                { rank: 6, team: "Blue Royals 12 Bling", points: 680.00 },
+                { rank: 7, team: "DaKine U12 National Pink", points: 675.00 },
+                { rank: 8, team: "SVA 12-Joe", points: 670.00 },
+                { rank: 9, team: "253 Elite u12 Elua", points: 665.00 },
+                { rank: 10, team: "3N1 U12 Teal", points: 660.00 },
+                { rank: 11, team: "RSVBC 12-1", points: 655.00 },
+                { rank: 12, team: "Capital Ice 12's", points: 650.00 },
+                { rank: 13, team: "FEVA U12", points: 645.00 },
+                { rank: 14, team: "Blue Royals 12 Gem", points: 640.00 },
+                { rank: 15, team: "Emerald Rain 12 Elite", points: 635.00 },
+                { rank: 16, team: "PSVBA 12 Elite", points: 630.00 },
+                { rank: 17, team: "NPJ Seattle 12 National", points: 625.00 },
+                { rank: 18, team: "All Out U12", points: 620.00 },
+                { rank: 19, team: "ITVC 12 Baden", points: 615.00 },
+                { rank: 20, team: "WS Reign VBC 12-1", points: 610.00 },
+                { rank: 21, team: "Cascade U12", points: 605.00 },
+                { rank: 22, team: "SIVBC 12 Rain", points: 600.00 },
+                { rank: 23, team: "WVBA 12 adidas", points: 595.00 },
+                { rank: 24, team: "Oly Reign 12 Gold", points: 590.00 },
+                { rank: 25, team: "PJVBC 12 Elite", points: 585.00 },
+                { rank: 26, team: "3N1 U12 Purple", points: 580.00 },
+                { rank: 27, team: "PJVBC 11 National", points: 575.00 },
+                { rank: 28, team: "NPJ Seattle 12 Black", points: 570.00 },
+                { rank: 29, team: "Gorin U12", points: 565.00 },
+                { rank: 30, team: "SEVC U12 National", points: 560.00 },
+                { rank: 31, team: "NPJ Seattle 11 National", points: 555.00 },
+                { rank: 32, team: "Podio Sports 12s", points: 550.00 },
+                { rank: 33, team: "Oly Reign 12 Silver", points: 545.00 },
+                { rank: 34, team: "Foothills Black U12", points: 540.00 },
+                { rank: 35, team: "Blue Royals 11 Sparkle", points: 535.00 },
+                { rank: 36, team: "Momentum One 12 Tsunami", points: 530.00 },
+                { rank: 37, team: "NW Jrs. 12 Blue", points: 525.00 },
+                { rank: 38, team: "NW Jrs. 12 Black", points: 520.00 },
+                { rank: 39, team: "WS Reign VBC 11-1", points: 515.00 },
+                { rank: 40, team: "Emerald Raindrops 12-2", points: 510.00 },
+                { rank: 41, team: "Prism 12 Opal", points: 505.00 },
+                { rank: 42, team: "RSVBC 12-2", points: 500.00 },
+                { rank: 43, team: "Emerald Raindrops 12-1", points: 495.00 },
+                { rank: 44, team: "OPVBC 12 Strikers", points: 490.00 },
+                { rank: 45, team: "PNW TL 12-1", points: 485.00 },
+                { rank: 46, team: "NW Jrs. 11 Blue", points: 480.00 },
+                { rank: 47, team: "Oly Reign 12 Blue", points: 475.00 },
+                { rank: 48, team: "PJVBC 12 Select", points: 470.00 },
+                { rank: 49, team: "PJVBC 11 Elite", points: 465.00 },
+                { rank: 50, team: "Oly Reign 12 White", points: 460.00 },
+                { rank: 51, team: "Foothills White U12", points: 455.00 }
+            ],
+            U13: [
+                { rank: 1, team: "Ignite 13 Red", points: 725.00 },
+                { rank: 2, team: "PJVBC 13 National", points: 710.00 },
+                { rank: 3, team: "SVA 13 Elite", points: 705.00 },
+                { rank: 4, team: "SIVBC 13 Thunder", points: 700.00 },
+                { rank: 5, team: "Blue Royals 13 Elite", points: 695.00 },
+                { rank: 6, team: "Emerald 13 Elite", points: 690.00 },
+                { rank: 7, team: "DaKine U13 Elite", points: 685.00 },
+                { rank: 8, team: "3N1 U13 Elite", points: 680.00 },
+                { rank: 9, team: "Foothills 13 Black", points: 675.00 },
+                { rank: 10, team: "NPJ Seattle 13 National", points: 670.00 },
+                { rank: 11, team: "253 Elite 13 Gold", points: 665.00 },
+                { rank: 12, team: "RSVBC 13-1", points: 660.00 },
+                { rank: 13, team: "WVBA 13 Nike", points: 655.00 },
+                { rank: 14, team: "Capital 13 Elite", points: 650.00 },
+                { rank: 15, team: "Oly Reign 13 Gold", points: 645.00 },
+                { rank: 16, team: "PJVBC 13 Elite", points: 640.00 },
+                { rank: 17, team: "Cascade 13 Elite", points: 635.00 },
+                { rank: 18, team: "ITVC 13 Mizuno", points: 630.00 },
+                { rank: 19, team: "Blue Royals 13 Gem", points: 625.00 },
+                { rank: 20, team: "NW Jrs 13 Blue", points: 620.00 },
+                { rank: 21, team: "PSVBA 13 Elite", points: 615.00 },
+                { rank: 22, team: "Oly Reign 13 Silver", points: 610.00 },
+                { rank: 23, team: "WS Reign VBC 13-1", points: 605.00 },
+                { rank: 24, team: "All Out U13", points: 600.00 },
+                { rank: 25, team: "FEVA U13", points: 595.00 }
+            ],
+            U14: [
+                { rank: 1, team: "PJVBC 14 National", points: 735.00 },
+                { rank: 2, team: "Ignite 14 Red", points: 720.00 },
+                { rank: 3, team: "Blue Royals 14 Elite", points: 715.00 },
+                { rank: 4, team: "SIVBC 14 Storm", points: 710.00 },
+                { rank: 5, team: "DaKine U14 National", points: 705.00 },
+                { rank: 6, team: "SVA 14 Elite", points: 700.00 },
+                { rank: 7, team: "Foothills 14 Elite", points: 695.00 },
+                { rank: 8, team: "253 Elite 14 Elua", points: 690.00 },
+                { rank: 9, team: "3N1 U14 Elite", points: 685.00 },
+                { rank: 10, team: "NPJ Seattle 14 National", points: 680.00 },
+                { rank: 11, team: "Emerald 14 Elite", points: 675.00 },
+                { rank: 12, team: "RSVBC 14-1", points: 670.00 },
+                { rank: 13, team: "Capital 14 Elite", points: 665.00 },
+                { rank: 14, team: "WVBA 14 adidas", points: 660.00 },
+                { rank: 15, team: "Oly Reign 14 Gold", points: 655.00 },
+                { rank: 16, team: "PJVBC 14 Elite", points: 650.00 },
+                { rank: 17, team: "Blue Royals 14 Gem", points: 645.00 },
+                { rank: 18, team: "Cascade 14 Elite", points: 640.00 },
+                { rank: 19, team: "ITVC 14 Molten", points: 635.00 },
+                { rank: 20, team: "NW Jrs 14 Blue", points: 630.00 }
+            ],
+            U15: [
+                { rank: 1, team: "Ignite 15 Red", points: 745.00 },
+                { rank: 2, team: "PJVBC 15 National", points: 730.00 },
+                { rank: 3, team: "SIVBC 15 Thunder", points: 725.00 },
+                { rank: 4, team: "Blue Royals 15 Elite", points: 720.00 },
+                { rank: 5, team: "DaKine U15 National", points: 715.00 },
+                { rank: 6, team: "SVA 15 Elite", points: 710.00 },
+                { rank: 7, team: "253 Elite 15 Elua", points: 705.00 },
+                { rank: 8, team: "Foothills 15 Black", points: 700.00 },
+                { rank: 9, team: "3N1 U15 Elite", points: 695.00 },
+                { rank: 10, team: "NPJ Seattle 15 National", points: 690.00 },
+                { rank: 11, team: "Emerald 15 Elite", points: 685.00 },
+                { rank: 12, team: "RSVBC 15-1", points: 680.00 },
+                { rank: 13, team: "WVBA 15 Nike", points: 675.00 },
+                { rank: 14, team: "Capital 15 Elite", points: 670.00 },
+                { rank: 15, team: "Oly Reign 15 Gold", points: 665.00 }
+            ]
+        };
+
+        function switchDivision() {
+            const division = document.getElementById('divisionSelect').value;
+            currentDivision = division;
+            document.querySelectorAll('.division-standings').forEach(div => div.style.display = 'none');
+            document.getElementById('standings-' + division).style.display = 'block';
+            populateStandings(division);
+            filterTeams();
+        }
+
+        function populateStandings(division) {
+            const tbody = document.getElementById('standingsBody-' + division);
+            const table = document.getElementById('standingsTable-' + division);
+            if (tbody.children.length > 0) return;
+            tbody.innerHTML = '';
+            const data = allStandingsData[division] || [];
+            data.forEach(team => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td class="rank">${team.rank}</td><td>${team.team}</td><td class="points">${team.points.toFixed(2)}</td>`;
+                tbody.appendChild(row);
+            });
+            document.getElementById('loadingIndicator').style.display = 'none';
+            table.style.display = 'table';
+        }
+
+        function filterTeams() {
+            const filterValue = document.getElementById('teamFilter').value.toLowerCase().trim();
+            const tbody = document.getElementById('standingsBody-' + currentDivision);
+            const rows = tbody.querySelectorAll('tr');
+            let visibleCount = 0, totalCount = rows.length;
+            rows.forEach(row => {
+                const teamName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                if (filterValue === '' || teamName.includes(filterValue)) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            const filterCount = document.getElementById('filterCount');
+            if (filterValue === '') {
+                filterCount.textContent = `Showing all ${totalCount} teams in ${currentDivision}`;
+            } else {
+                filterCount.textContent = `Showing ${visibleCount} of ${totalCount} teams in ${currentDivision}`;
+                if (visibleCount === 0) filterCount.innerHTML = '<span style="color: #dc3545;">No teams found.</span>';
+            }
+        }
+
+        function updateLastUpdated() {
+            const now = new Date();
+            document.getElementById('lastUpdate').textContent = now.toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('lastStandingsUpdate').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+
+        function startStandingsRefresh() {
+            if (refreshInterval) clearInterval(refreshInterval);
+            refreshInterval = setInterval(() => {
+                updateLastUpdated();
+                console.log('Standings updated at ' + new Date().toLocaleTimeString());
+            }, 60000);
+        }
+
+        let countdown = 60;
+        function startCountdown() {
+            setInterval(() => {
+                countdown--;
+                document.getElementById('countdown').textContent = countdown;
+                if (countdown <= 0) {
+                    countdown = 60;
+                    updateLastUpdated();
+                }
+            }, 1000);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            ['U12', 'U13', 'U14', 'U15'].forEach(div => populateStandings(div));
+            switchDivision();
+            updateLastUpdated();
+            startCountdown();
+            startStandingsRefresh();
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (refreshInterval) clearInterval(refreshInterval);
+        });
+    </script>
             { rank: 1, team: "PJVBC 12 National", code: "g12puyal1ps", points: 715.00 },
             { rank: 2, team: "Ignite 12 Red", code: "g12ignit1ps", points: 700.00 },
             { rank: 3, team: "Blue Royals 12 Jewel", code: "g12brvba1ps", points: 695.00 },
